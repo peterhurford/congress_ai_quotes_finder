@@ -1,0 +1,8 @@
+govinfo_cache/
+__pycache__/
+*.pyc
+.last_run
+govinfo_agi_results.csv
+quote_analysis.csv
+new_member_quotes.md
+.env
