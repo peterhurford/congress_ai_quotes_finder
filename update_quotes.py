@@ -75,57 +75,44 @@ SEARCH_TERMS = [
     ('"artificial general intelligence"', "artificial general intelligence"),
     ('"superintelligence"', "superintelligence"),
     ('"superintelligent"', "superintelligent"),
-    ('"artificial superintelligence"', "artificial superintelligence"),
     ('"intelligence explosion"', "intelligence explosion"),
     ('"recursive self-improvement"', "recursive self-improvement"),
     ('"capability amplification"', "capability amplification"),
     ('"superhuman AI"', "superhuman AI"),
     ('"human-level" AND ("AI" OR "artificial intelligence")',
      "human-level + AI"),
-    ('"surpass human" AND ("AI" OR "artificial intelligence")',
-     "surpass human + AI"),
+    ('"surpass" AND ("AI" OR "artificial intelligence")',
+     "surpass + AI"),
     ('"smarter than humans" AND ("AI" OR "artificial intelligence")',
      "smarter than humans + AI"),
-    ('"smarter than human" AND ("AI" OR "artificial intelligence")',
-     "smarter than human + AI"),
     ('"ultra-intelligent"', "ultra-intelligent"),
-    ('"digital god" AND ("AI" OR "artificial intelligence")',
-     "digital god + AI"),
+    ('"god" AND ("AI" OR "artificial intelligence")',
+     "god + AI"),
+    ('"improve" AND ("AI" OR "artificial intelligence")',
+     "improve + AI"),
     ('"Turing Test"', "Turing Test"),
 
     # --- Existential / catastrophic risk ---
-    ('"existential risk" AND ("AI" OR "artificial intelligence")',
+    ('("existential risk" OR "existential threat") AND ("AI" OR "artificial intelligence")',
      "existential risk + AI"),
-    ('"existential threat" AND ("AI" OR "artificial intelligence")',
-     "existential threat + AI"),
     ('"catastrophic risk" AND ("AI" OR "artificial intelligence")',
      "catastrophic risk + AI"),
     ('"extinction" AND ("AI" OR "artificial intelligence")',
      "extinction + AI"),
     ('"threat to humanity" AND ("AI" OR "artificial intelligence")',
      "threat to humanity + AI"),
-    ('"end of humanity" AND ("AI" OR "artificial intelligence")',
+    ('("end of humanity" OR "end of the world") AND ("AI" OR "artificial intelligence")',
      "end of humanity + AI"),
-    ('"end of the world" AND ("AI" OR "artificial intelligence")',
-     "end of the world + AI"),
-    ('"destroy the world" AND ("AI" OR "artificial intelligence")',
-     "destroy the world + AI"),
+    ('"destroy" AND ("AI" OR "artificial intelligence")',
+     "destroy + AI"),
     ('"kill us all" AND ("AI" OR "artificial intelligence")',
      "kill us all + AI"),
-    ('"most dangerous" AND ("AI" OR "artificial intelligence")',
-     "most dangerous + AI"),
-    ('"engineering our own destruction"',
-     "engineering our own destruction"),
+    ('"destruction" AND ("AI" OR "artificial intelligence")',
+     "destruction + AI"),
 
     # --- Control / alignment / safety ---
-    ('"loss of control" AND ("AI" OR "artificial intelligence")',
+    ('("loss of control" OR "lose control" OR "out of control" OR "uncontrollable") AND ("AI" OR "artificial intelligence")',
      "loss of control + AI"),
-    ('"lose control" AND ("AI" OR "artificial intelligence")',
-     "lose control + AI"),
-    ('"out of control" AND ("AI" OR "artificial intelligence")',
-     "out of control + AI"),
-    ('"uncontrollable" AND ("AI" OR "artificial intelligence")',
-     "uncontrollable + AI"),
     ('"AI safety"', "AI safety"),
     ('"AI alignment"', "AI alignment"),
     ('"misalignment" AND ("AI" OR "artificial intelligence")',
@@ -136,8 +123,8 @@ SEARCH_TERMS = [
     ('"AI pause"', "AI pause"),
     ('"too powerful" AND ("AI" OR "artificial intelligence")',
      "too powerful + AI"),
-    ('"too dangerous" AND ("AI" OR "artificial intelligence")',
-     "too dangerous + AI"),
+    ('"dangerous" AND ("AI" OR "artificial intelligence")',
+     "dangerous + AI"),
     ('"singularity" AND ("AI" OR "artificial intelligence")',
      "singularity + AI"),
 
@@ -167,18 +154,14 @@ SEARCH_TERMS = [
     ('"kill chain" AND ("AI" OR "artificial intelligence")',
      "kill chain + AI"),
     ('"AI arms race"', "AI arms race"),
-    ('"weapons of mass destruction" AND ("AI" OR "artificial intelligence")',
-     "weapons of mass destruction + AI"),
     ('"atomic bomb" AND ("AI" OR "artificial intelligence")',
      "atomic bomb + AI"),
     ('"Manhattan Project" AND ("AI" OR "artificial intelligence")',
      "Manhattan Project + AI"),
 
     # --- Deception / self-preservation ---
-    ('"deception" AND ("AI" OR "artificial intelligence")',
+    ('("deception" OR "deceiving") AND ("AI" OR "artificial intelligence")',
      "deception + AI"),
-    ('"deceiving" AND ("AI" OR "artificial intelligence")',
-     "deceiving + AI"),
     ('"blackmail" AND ("AI" OR "artificial intelligence")',
      "blackmail + AI"),
 
@@ -399,17 +382,17 @@ def html_to_text(html):
 SEARCH_REGEXES_LABELED = [
     # Core AGI / ASI
     (re.compile(r'artificial\s+general\s+intelligence', re.I), "artificial general intelligence"),
-    (re.compile(r'artificial\s+superintelligence', re.I), "artificial superintelligence"),
     (re.compile(r'superintelligen(?:ce|t)', re.I), "superintelligence"),
     (re.compile(r'intelligence\s+explosion', re.I), "intelligence explosion"),
     (re.compile(r'recursive\s+self[- ]improvement', re.I), "recursive self-improvement"),
     (re.compile(r'capability\s+amplification', re.I), "capability amplification"),
     (re.compile(r'superhuman\s+AI', re.I), "superhuman AI"),
     (re.compile(r'human[- ]level', re.I), "human-level"),
-    (re.compile(r'surpass\s+human', re.I), "surpass human"),
+    (re.compile(r'\bsurpass\b', re.I), "surpass"),
     (re.compile(r'smarter\s+than\s+humans?', re.I), "smarter than humans"),
     (re.compile(r'ultra[- ]intelligent', re.I), "ultra-intelligent"),
-    (re.compile(r'digital\s+god', re.I), "digital god"),
+    (re.compile(r'\bgod\b', re.I), "god"),
+    (re.compile(r'\bimprove\b', re.I), "improve"),
     (re.compile(r'Turing\s+Test', re.I), "Turing Test"),
     # Existential / catastrophic
     (re.compile(r'existential\s+risk', re.I), "existential risk"),
@@ -419,10 +402,9 @@ SEARCH_REGEXES_LABELED = [
     (re.compile(r'threat\s+to\s+humanity', re.I), "threat to humanity"),
     (re.compile(r'end\s+of\s+humanity', re.I), "end of humanity"),
     (re.compile(r'end\s+of\s+the\s+world', re.I), "end of the world"),
-    (re.compile(r'destroy\s+the\s+world', re.I), "destroy the world"),
+    (re.compile(r'\bdestroy\b', re.I), "destroy"),
     (re.compile(r'kill\s+us\s+all', re.I), "kill us all"),
-    (re.compile(r'most\s+dangerous', re.I), "most dangerous"),
-    (re.compile(r'engineering\s+our\s+own\s+destruction', re.I), "engineering our own destruction"),
+    (re.compile(r'\bdestruction\b', re.I), "destruction"),
     # Control / alignment / safety
     (re.compile(r'loss\s+of\s+control', re.I), "loss of control"),
     (re.compile(r'lose\s+control', re.I), "lose control"),
@@ -435,7 +417,7 @@ SEARCH_REGEXES_LABELED = [
     (re.compile(r'AI\s+moratorium', re.I), "AI moratorium"),
     (re.compile(r'AI\s+pause', re.I), "AI pause"),
     (re.compile(r'too\s+powerful', re.I), "too powerful"),
-    (re.compile(r'too\s+dangerous', re.I), "too dangerous"),
+    (re.compile(r'\bdangerous\b', re.I), "dangerous"),
     (re.compile(r'singularity', re.I), "singularity"),
     # Pop culture / metaphor
     (re.compile(r'skynet', re.I), "skynet"),
@@ -454,7 +436,6 @@ SEARCH_REGEXES_LABELED = [
     (re.compile(r'weaponized', re.I), "weaponized"),
     (re.compile(r'kill\s+chain', re.I), "kill chain"),
     (re.compile(r'AI\s+arms\s+race', re.I), "AI arms race"),
-    (re.compile(r'weapons?\s+of\s+mass\s+destruction', re.I), "weapons of mass destruction"),
     (re.compile(r'atomic\s+bomb', re.I), "atomic bomb"),
     (re.compile(r'Manhattan\s+Project', re.I), "Manhattan Project"),
     # Deception / self-preservation
@@ -469,7 +450,7 @@ SEARCH_REGEXES_LABELED = [
 
 # Terms inherently AI-specific — always pass AI context check
 _ALWAYS_AI = {
-    "artificial general intelligence", "artificial superintelligence",
+    "artificial general intelligence",
     "superintelligence", "intelligence explosion",
     "recursive self-improvement", "capability amplification",
     "superhuman AI", "ultra-intelligent",
@@ -478,19 +459,19 @@ _ALWAYS_AI = {
     "autonomous weapons", "lethal autonomous",
     "Turing Test", "HAL 9000", "rise of the machines",
     "If Anyone Builds It Everyone Dies", "skynet",
-    "engineering our own destruction",
 }
 
 # Terms very common in non-AI contexts — need 2+ AI indicators nearby
 _HIGH_AMBIGUITY = {
     "existential risk", "existential threat", "catastrophic risk",
-    "end of humanity", "end of the world", "destroy the world",
+    "end of humanity", "end of the world",
     "loss of control", "lose control", "out of control",
-    "extinction", "kill us all", "most dangerous",
-    "too powerful", "too dangerous",
+    "extinction", "kill us all",
+    "too powerful", "dangerous",
+    "surpass", "god", "destroy", "destruction", "improve",
     "deception", "deceiving", "blackmail",
     "science fiction", "escape velocity", "weaponized",
-    "atomic bomb", "Manhattan Project", "weapons of mass destruction",
+    "atomic bomb", "Manhattan Project",
 }
 
 _AI_INDICATORS = [
@@ -588,7 +569,11 @@ that substantively engages with one of the target topics.
 nuclear/chemical/biological weapons (not AI); "deception" about fraud or politics; \
 "blackmail" about non-AI crimes; "The Matrix" / "Terminator" / "science fiction" \
 in non-AI context; "Manhattan Project" about the historical project (not AI analogy); \
-"most dangerous" / "too powerful" / "too dangerous" about non-AI topics; \
+"too powerful" / "dangerous" about non-AI topics; \
+"destroy" / "destruction" about war, property, or the environment (not AI); \
+"god" in religious/rhetorical references unrelated to AI; \
+"surpass" about athletic, economic, or other non-AI achievements; \
+"improve" about generic policy, products, or services (not AI capability gains); \
 "sentient" about animals; "escape velocity" about space; "Frankenstein" about \
 biotech or literature; "uncontrollable" about spending or bureaucracy; \
 "catastrophic risk" about natural disasters or finance.

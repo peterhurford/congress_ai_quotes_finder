@@ -245,17 +245,17 @@ for full_name, party, title, state in TRACKED_MEMBERS:
 SEARCH_REGEXES = [
     # Core AGI / ASI
     (re.compile(r'artificial\s+general\s+intelligence', re.I), "artificial general intelligence"),
-    (re.compile(r'artificial\s+superintelligence', re.I), "artificial superintelligence"),
     (re.compile(r'superintelligen(?:ce|t)', re.I), "superintelligence"),
     (re.compile(r'intelligence\s+explosion', re.I), "intelligence explosion"),
     (re.compile(r'recursive\s+self[- ]improvement', re.I), "recursive self-improvement"),
     (re.compile(r'capability\s+amplification', re.I), "capability amplification"),
     (re.compile(r'superhuman\s+AI', re.I), "superhuman AI"),
     (re.compile(r'human[- ]level', re.I), "human-level"),
-    (re.compile(r'surpass\s+human', re.I), "surpass human"),
+    (re.compile(r'\bsurpass\b', re.I), "surpass"),
     (re.compile(r'smarter\s+than\s+humans?', re.I), "smarter than humans"),
     (re.compile(r'ultra[- ]intelligent', re.I), "ultra-intelligent"),
-    (re.compile(r'digital\s+god', re.I), "digital god"),
+    (re.compile(r'\bgod\b', re.I), "god"),
+    (re.compile(r'\bimprove\b', re.I), "improve"),
     (re.compile(r'Turing\s+Test', re.I), "Turing Test"),
     # Existential / catastrophic
     (re.compile(r'existential\s+risk', re.I), "existential risk"),
@@ -265,10 +265,9 @@ SEARCH_REGEXES = [
     (re.compile(r'threat\s+to\s+humanity', re.I), "threat to humanity"),
     (re.compile(r'end\s+of\s+humanity', re.I), "end of humanity"),
     (re.compile(r'end\s+of\s+the\s+world', re.I), "end of the world"),
-    (re.compile(r'destroy\s+the\s+world', re.I), "destroy the world"),
+    (re.compile(r'\bdestroy\b', re.I), "destroy"),
     (re.compile(r'kill\s+us\s+all', re.I), "kill us all"),
-    (re.compile(r'most\s+dangerous', re.I), "most dangerous"),
-    (re.compile(r'engineering\s+our\s+own\s+destruction', re.I), "engineering our own destruction"),
+    (re.compile(r'\bdestruction\b', re.I), "destruction"),
     # Control / alignment / safety
     (re.compile(r'loss\s+of\s+control', re.I), "loss of control"),
     (re.compile(r'lose\s+control', re.I), "lose control"),
@@ -281,7 +280,7 @@ SEARCH_REGEXES = [
     (re.compile(r'AI\s+moratorium', re.I), "AI moratorium"),
     (re.compile(r'AI\s+pause', re.I), "AI pause"),
     (re.compile(r'too\s+powerful', re.I), "too powerful"),
-    (re.compile(r'too\s+dangerous', re.I), "too dangerous"),
+    (re.compile(r'\bdangerous\b', re.I), "dangerous"),
     (re.compile(r'singularity', re.I), "singularity"),
     # Pop culture / metaphor
     (re.compile(r'skynet', re.I), "skynet"),
@@ -300,7 +299,6 @@ SEARCH_REGEXES = [
     (re.compile(r'weaponized', re.I), "weaponized"),
     (re.compile(r'kill\s+chain', re.I), "kill chain"),
     (re.compile(r'AI\s+arms\s+race', re.I), "AI arms race"),
-    (re.compile(r'weapons?\s+of\s+mass\s+destruction', re.I), "weapons of mass destruction"),
     (re.compile(r'atomic\s+bomb', re.I), "atomic bomb"),
     (re.compile(r'Manhattan\s+Project', re.I), "Manhattan Project"),
     # Deception / self-preservation
@@ -393,12 +391,12 @@ def extract_member_names_from_header(text):
 
 def is_ai_context(text, match_start, match_end, search_label):
     """Check whether the search term match is actually in an AI-related context.
-    Some terms like 'existential risk', 'loss of control', 'self-aware', 'destroy the world',
+    Some terms like 'existential risk', 'loss of control', 'self-aware', 'destroy',
     'end of humanity', 'singularity' can appear in non-AI contexts."""
 
     # These terms are inherently AI-specific, always pass
     always_ai = {
-        "artificial general intelligence", "artificial superintelligence",
+        "artificial general intelligence",
         "superintelligence", "intelligence explosion",
         "recursive self-improvement", "capability amplification",
         "superhuman AI", "ultra-intelligent",
@@ -407,7 +405,6 @@ def is_ai_context(text, match_start, match_end, search_label):
         "autonomous weapons", "lethal autonomous",
         "Turing Test", "HAL 9000", "rise of the machines",
         "If Anyone Builds It Everyone Dies", "skynet",
-        "engineering our own destruction",
     }
     if search_label in always_ai:
         return True
@@ -433,13 +430,14 @@ def is_ai_context(text, match_start, match_end, search_label):
     # Terms very common in non-AI contexts — require stronger AI signal (2+)
     high_ambiguity = {
         "existential risk", "existential threat", "catastrophic risk",
-        "end of humanity", "end of the world", "destroy the world",
+        "end of humanity", "end of the world",
         "loss of control", "lose control", "out of control",
-        "extinction", "kill us all", "most dangerous",
-        "too powerful", "too dangerous",
+        "extinction", "kill us all",
+        "too powerful", "dangerous",
+        "surpass", "god", "destroy", "destruction", "improve",
         "deception", "deceiving", "blackmail",
         "science fiction", "escape velocity", "weaponized",
-        "atomic bomb", "Manhattan Project", "weapons of mass destruction",
+        "atomic bomb", "Manhattan Project",
     }
     if search_label in high_ambiguity:
         return matches >= 2
@@ -550,7 +548,7 @@ def quality_score(quote, search_label, speaker_distance, is_ai_ctx):
         "catastrophic", "loss of control", "out of control",
         "lose control", "uncontrollable",
         "superintelligen", "artificial general intelligence",
-        "artificial superintelligence", "intelligence explosion",
+        "intelligence explosion",
         " agi ", "skynet", "terminator", "self-aware",
         "survival instinct", "threat to human",
         "rogue ai", "autonomous weapon", "lethal autonomous",
@@ -559,8 +557,8 @@ def quality_score(quote, search_label, speaker_distance, is_ai_ctx):
         "deception", "deceiv", "blackmail",
         "rise of the machines", "frankenstein", "hal 9000",
         "the matrix", "asimov", "manhattan project", "atomic bomb",
-        "engineering our own destruction", "escape velocity",
-        "too powerful", "too dangerous", "digital god",
+        "escape velocity",
+        "too powerful",
         "capability amplification",
     ]
     strong_count = sum(1 for s in strong_phrases if s in ql)
