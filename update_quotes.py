@@ -635,8 +635,15 @@ but flag them)
     try:
         results = json.loads(text)
     except json.JSONDecodeError:
-        print(f"    LLM returned non-JSON: {text[:200]}")
-        return []
+        m = re.search(r'\[.*\]', text, re.DOTALL)
+        if not m:
+            print(f"    LLM returned non-JSON: {text[:200]}")
+            return []
+        try:
+            results = json.loads(m.group(0))
+        except json.JSONDecodeError:
+            print(f"    LLM returned non-JSON: {text[:200]}")
+            return []
 
     if not isinstance(results, list):
         return []

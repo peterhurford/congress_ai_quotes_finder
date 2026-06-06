@@ -678,8 +678,15 @@ def classify_document(client, doc_meta, passages):
     try:
         results = json.loads(text)
     except json.JSONDecodeError:
-        print(f"    LLM returned non-JSON: {text[:120]}")
-        return []
+        m = re.search(r'\[.*\]', text, re.DOTALL)
+        if not m:
+            print(f"    LLM returned non-JSON: {text[:120]}")
+            return []
+        try:
+            results = json.loads(m.group(0))
+        except json.JSONDecodeError:
+            print(f"    LLM returned non-JSON: {text[:120]}")
+            return []
 
     if not isinstance(results, list):
         return []
