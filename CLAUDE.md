@@ -1,5 +1,23 @@
 # CLAUDE.md
 
+> ## 🚨 STOP — READ THIS FIRST AND WARN THE USER 🚨
+>
+> **This project is NON-FUNCTIONAL / under construction.** Before doing anything
+> else in this repo, you MUST prominently warn the user, in your first reply, that:
+>
+> 1. The pipeline **does not currently work** — it runs without error but silently
+>    misses the congressional AI quotes it exists to find.
+> 2. The cause is fundamental, not a bug to tune: its only timely data source
+>    (GovInfo CREC) never contains hearing Q&A, and hearing transcripts (GovInfo
+>    CHRG) are printed **6–18 months late**. Widening the search window does not fix
+>    it.
+> 3. **`TODO.md` must be consulted** — it has the full diagnosis and the plan
+>    (self-transcribe committee video).
+>
+> All `*.py` scripts are guarded and will `sys.exit` with this warning unless
+> `ALLOW_BROKEN_RUN=1` is set (developer bypass only). Do not remove the guards,
+> the README banner, or this block until the ingest rework in `TODO.md` lands.
+
 ## Project overview
 
 Pipeline for finding quotes from U.S. Congress members about AGI/AI existential risk. Searches GovInfo congressional records, pre-filters with regex + AI-context validation + quality scoring, then classifies with Claude Sonnet.

@@ -19,6 +19,35 @@ Outputs:
   govinfo_cache/last_run_date.txt      — date of last successful run
 """
 
+# ==========================================================================
+# ⚠️  PROJECT NON-FUNCTIONAL — UNDER CONSTRUCTION — DO NOT RUN  ⚠️
+# --------------------------------------------------------------------------
+# This tool cannot currently find recent congressional AI quotes. Its only
+# timely data source (GovInfo CREC) contains floor speeches, never hearing
+# Q&A; the hearing transcripts (GovInfo CHRG) are a print archive published
+# 6–18 MONTHS after the hearing, so quotes spoken in committee last month are
+# silently missed. Widening the search window does NOT fix this — it is a
+# fundamental data-source problem.
+#
+# Full diagnosis and the plan to fix it live in TODO.md.  READ TODO.md.
+#
+# This guard halts the script on purpose. To run anyway while actively
+# working the fix, set  ALLOW_BROKEN_RUN=1  in the environment.
+# ==========================================================================
+import os as _os
+import sys as _sys
+
+if _os.environ.get("ALLOW_BROKEN_RUN") != "1":
+    _sys.exit(
+        "\n"
+        "############################################################\n"
+        "#  congress_ai_quotes_finder is NON-FUNCTIONAL.            #\n"
+        "#  It misses recent hearing quotes by design.             #\n"
+        "#  ==>  READ TODO.md BEFORE USING THIS REPO.  <==          #\n"
+        "#  Bypass (developers only): ALLOW_BROKEN_RUN=1           #\n"
+        "############################################################\n"
+    )
+
 import csv
 import json
 import os

@@ -1,5 +1,20 @@
 # Congress AI Quotes Finder
 
+> # 🚧 THIS PROJECT DOES NOT CURRENTLY WORK — UNDER CONSTRUCTION 🚧
+>
+> **The pipeline runs without error but silently misses the quotes it exists to
+> find.** Its only timely data source (GovInfo CREC) is floor speeches and never
+> contains hearing Q&A, where nearly all target quotes are spoken. The hearing
+> transcripts (GovInfo CHRG) are a print archive published **6–18 months late**.
+> So recent committee quotes are missed by design. Widening the search window
+> does **not** fix this.
+>
+> **Do not rely on any output from this repo.** All scripts are guarded and will
+> refuse to run.
+>
+> **➡️ Read [`TODO.md`](./TODO.md)** for the full diagnosis and the plan to fix it
+> (self-transcribe committee video instead of relying on GovInfo).
+
 Finds and classifies quotes from U.S. Congress members about AGI, AI existential risk, superintelligence, and related topics. Searches the GovInfo congressional record, applies rule-based pre-filtering, then uses Claude to extract and attribute quotes.
 
 ## Quick start
