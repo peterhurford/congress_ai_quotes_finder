@@ -650,7 +650,7 @@ but flag them)
         user_msg += f"\n### Passage {i}\n{p}\n"
 
     resp = client.messages.create(
-        model="claude-sonnet-4-5",
+        model="claude-sonnet-5-5",
         max_tokens=4096,
         system=SYSTEM_PROMPT,
         messages=[{"role": "user", "content": user_msg}],
